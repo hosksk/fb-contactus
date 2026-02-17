@@ -2,6 +2,7 @@
 class InquiryForm extends HTMLElement {
   constructor() {
     super();
+    this.formEndpoint = 'https://formspree.io/f/xzdavppl';
     const shadow = this.attachShadow({ mode: 'open' });
 
     const form = document.createElement('form');
@@ -76,12 +77,33 @@ class InquiryForm extends HTMLElement {
     shadow.appendChild(style);
     shadow.appendChild(form);
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
       const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      console.log('Inquiry submitted:', data);
-      form.reset();
+      submitButton.disabled = true;
+
+      try {
+        const response = await fetch(this.formEndpoint, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Formspree request failed: ${response.status}`);
+        }
+
+        form.reset();
+        alert('문의가 정상적으로 전송되었습니다.');
+      } catch (error) {
+        console.error('Inquiry submission failed:', error);
+        alert('문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      } finally {
+        submitButton.disabled = false;
+      }
     });
   }
 }
