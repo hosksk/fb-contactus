@@ -1,1 +1,50 @@
-/* Add styles here */
+
+:root {
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --text-color: #333;
+  --background-color: #f4f4f4;
+  --form-background: #fff;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+  --text-color: #f4f4f4;
+  --background-color: #333;
+  --form-background: #444;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+inquiry-form {
+  display: block;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  inquiry-form {
+    max-width: 100%;
+  }
+}
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 24px;
+}
